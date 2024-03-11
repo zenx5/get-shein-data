@@ -5,20 +5,28 @@
     "description": "Collect order data from shein",
     "permissions": [
         "tabs",
-        "http://*/*",
         "https://*/*"
     ],
     "background": {
-        "scripts": ["src/js/background.js"],
-        "persistent": false
+        "service_worker": "src/js/worker.js"
     },
     "content_scripts": [
         {
-            "matches": ["http://*/*", "https://*/*"],
-            "js": ["src/js/content.js"]
+            "matches": ["https://us.shein.com/user/*/*"],
+            "js": ["src/js/base/constants.js"]
+        },
+        {
+            "matches": ["https://us.shein.com/user/orders/combinedOrder/*"],
+            "js": ["src/js/orders/combined-order.js"],
+            "css":["src/css/orders/combined-order.css"]
+        },
+        {
+            "matches": ["https://us.shein.com/user/orders/detail/*"],
+            "js": ["src/js/orders/order-detail.js"]
         }
+
     ],
-    "browser_action": {
+    "action": {
         "default_popup": "src/html/popup.html",
         "default_icon": {
             "16": "images/logo.jpg",
